@@ -1,9 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gabriel Belchior</title>
+    <script type="text/javascript" src="js/index.js"></script>
+    <style>
+        #siteName {
+            position: fixed;
+            bottom: 15px;
+            right: 15px;
+            color: #0f0;
+            background-color: black;
+
+            font-family: 'Consolas', 'Lucida Console', 'Courier New', Courier, monospace;
+            font-size: 14pt;
+        }
+
+        #siteName .text {
+            float: left;
+        }
+
+        #siteName .prompt {
+            animation: blink 1s linear infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 1; }
+            50.01% { opacity: 0; }
+            100% { opacity: 0; }
+        }
+    </style>
 </head>
-<body>
-    Em construção...
+
+<body style="margin: 0; overflow: hidden;">
+    <canvas id="canvas"></canvas>
+    <div id="siteName">
+        <span class="text"></span>
+        <strong class="prompt">_</strong>
+    </div>
 </body>
+
 </html>
