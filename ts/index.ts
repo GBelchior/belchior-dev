@@ -115,39 +115,14 @@ class Main {
     }
 
     private static GetNeighboringConnections(dot: Dot): Dot[] {
-        let neighbors: Dot[] = [];
+        let otherDots = Main.dots.filter(d => d != dot);
 
-        Main.dots.forEach(d => {
-            if (d == dot) return;
-
-            let distX = Math.abs(d.x - dot.x);
-            let distY = Math.abs(d.y - dot.y);
-
-            let dist = Math.sqrt(distX * distX + distY * distY);
-
-            if (dist < 100) {
-                neighbors.push(d);
-            }
-        });
+        let dists = otherDots.map(d => Math.sqrt(Math.pow(d.x - dot.x, 2) + Math.pow(d.y - dot.y, 2)));
+        let neighbors = otherDots.filter((v, idx) => dists[idx] < 100);
 
         if (neighbors.length == 0) {
-            let nearestNeighbor: Dot = null;
-            let nearestDist: number = Number.MAX_VALUE;
-            Main.dots.forEach(d => {
-                if (d == dot) return;
-
-                let distX = Math.abs(d.x - dot.x);
-                let distY = Math.abs(d.y - dot.y);
-
-                let dist = Math.sqrt(distX * distX + distY * distY);
-
-                if (dist < nearestDist) {
-                    nearestDist = dist;
-                    nearestNeighbor = d;
-                }
-            });
-
-            neighbors.push(nearestNeighbor);
+            let minDist = Math.min.apply(null, dists);
+            neighbors.push(otherDots[dists.indexOf(minDist)]);
         }
 
         return neighbors;
