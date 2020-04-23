@@ -91,32 +91,12 @@ var Main = /** @class */ (function () {
         }
     };
     Main.GetNeighboringConnections = function (dot) {
-        var neighbors = [];
-        Main.dots.forEach(function (d) {
-            if (d == dot)
-                return;
-            var distX = Math.abs(d.x - dot.x);
-            var distY = Math.abs(d.y - dot.y);
-            var dist = Math.sqrt(distX * distX + distY * distY);
-            if (dist < 100) {
-                neighbors.push(d);
-            }
-        });
+        var otherDots = Main.dots.filter(function (d) { return d != dot; });
+        var dists = otherDots.map(function (d) { return Math.sqrt(Math.pow(d.x - dot.x, 2) + Math.pow(d.y - dot.y, 2)); });
+        var neighbors = otherDots.filter(function (v, idx) { return dists[idx] < 100; });
         if (neighbors.length == 0) {
-            var nearestNeighbor_1 = null;
-            var nearestDist_1 = Number.MAX_VALUE;
-            Main.dots.forEach(function (d) {
-                if (d == dot)
-                    return;
-                var distX = Math.abs(d.x - dot.x);
-                var distY = Math.abs(d.y - dot.y);
-                var dist = Math.sqrt(distX * distX + distY * distY);
-                if (dist < nearestDist_1) {
-                    nearestDist_1 = dist;
-                    nearestNeighbor_1 = d;
-                }
-            });
-            neighbors.push(nearestNeighbor_1);
+            var minDist = Math.min.apply(null, dists);
+            neighbors.push(otherDots[dists.indexOf(minDist)]);
         }
         return neighbors;
     };
